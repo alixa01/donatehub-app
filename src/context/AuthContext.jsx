@@ -6,53 +6,47 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       try {
-        const decodedPayload = jwtDecode(storedToken);
-        if (decodedPayload.exp * 1000 < Date.now()) {
+        const decodedUser = jwtDecode(storedToken);
+        if (decodedUser.exp * 1000 < Date.now()) {
           localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          setToken(null);
           setUser(null);
+          setToken(null);
         } else {
+          setUser(decodedUser);
           setToken(storedToken);
-          const storedUser = localStorage.getItem("user");
-          setUser(storedUser ? JSON.parse(storedUser) : null);
         }
       } catch (error) {
-        console.error("Failed to decode token:", error);
+        console.error("Token tidak valid:", error);
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setToken(null);
         setUser(null);
+        setToken(null);
       }
     }
   }, []);
 
-  const login = ({ token, user }) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    setToken(token);
-    setUser(user);
+  const login = ({ token: newToken }) => {
+    const decodedUser = jwtDecode(newToken);
+    localStorage.setItem("token", newToken);
+    setUser(decodedUser);
+    setToken(newToken);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setToken(null);
     setUser(null);
+    setToken(null);
   };
 
-  return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = { user, token, login, logout };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
