@@ -1,5 +1,4 @@
-import { campaigns } from "@/lib/campaign";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const getStatusBadge = (status) => {
@@ -11,7 +10,26 @@ const getStatusBadge = (status) => {
 };
 
 const CampaignTable = () => {
-  const pendingCampaigns = campaigns.filter((c) => c.status === "Pending");
+  const [pendingCampaigns, setPendingCampaigns] = useState([]);
+
+  useEffect(() => {
+    const fetchPendingCampaigns = async () => {
+      try {
+        const res = await fetch(
+          "http://localhost:3000/campaigns?status=PENDING",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const data = await res.json();
+        setPendingCampaigns(data);
+      } catch (error) {
+        console.error("Failed to fetch campaigns: ", error);
+      }
+    };
+    fetchPendingCampaigns();
+  }, []);
 
   return (
     <div className="overflow-x-auto border rounded-md">
@@ -28,17 +46,19 @@ const CampaignTable = () => {
           </tr>
         </thead>
         <tbody>
-          {pendingCampaigns.map((campaign, index) => (
-            <tr key={index} className="border-t">
+          {pendingCampaigns.map((campaign) => (
+            <tr key={campaign.id} className="border-t">
               <td className="p-3 font-semibold">{campaign.title}</td>
-              <td className="p-3 font-semibold">{campaign.creator}</td>
+              <td className="p-3 font-semibold">{campaign.creator.username}</td>
               <td className="p-3 font-semibold capitalize">
                 {campaign.category}
               </td>
               <td className="p-3 font-semibold">
                 ${campaign.goal.toLocaleString()}
               </td>
-              <td className="p-3 font-semibold">{campaign.submitted_date}</td>
+              <td className="p-3 font-semibold">
+                {new Date(campaign.createdAt).toLocaleDateString()}
+              </td>
               <td className="p-3 font-semibold">
                 {getStatusBadge(campaign.status)}
               </td>
