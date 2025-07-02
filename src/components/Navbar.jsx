@@ -4,7 +4,7 @@ import { shortenAddress } from "../utils/format";
 import { useAuth } from "@/context/AuthContext";
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <>
@@ -20,12 +20,11 @@ function Navbar() {
         {/* LOGIN, REGISTER, USER */}
         <div className="flex items-center gap-4">
           {user ? (
-            <>
-              <span>{shortenAddress(user.walletAddress)}</span>
-              <button onClick={logout} className="underline">
-                Logout
-              </button>
-            </>
+            <Button asChild variant="outline">
+              <Link key={user.walletAddress} to={`user/${user.walletAddress}`}>
+                <span>{shortenAddress(user.walletAddress)}</span>
+              </Link>
+            </Button>
           ) : (
             <>
               <Button asChild variant="outline">

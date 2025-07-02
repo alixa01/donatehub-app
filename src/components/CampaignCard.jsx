@@ -21,7 +21,7 @@ const CampaignCard = ({
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden w-full">
-      <Link to={`/${id}`} className="block">
+      <Link key={id} to={`/campaign/${id}`} className="block">
         {/* IMAGE */}
         <div className="relative">
           <img

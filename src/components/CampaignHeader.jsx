@@ -9,7 +9,7 @@ const CampaignHeader = ({ title, category, location }) => {
         <span className="bg-gray-100 text-black text-sm px-2 py-1 rounded-full">
           {category}
         </span>
-        <span>• {location}</span>
+        <span>{location}</span>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const App = () => {
     <MainLayout>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/1" element={<Detail />} />
+        <Route path="/campaign/:id" element={<Detail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/pending-campaign" element={<PendingCampaigns />} />

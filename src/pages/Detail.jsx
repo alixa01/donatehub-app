@@ -2,26 +2,45 @@ import CampaignDescription from "@/components/CampaignDescription";
 import CampaignHeader from "@/components/CampaignHeader";
 import CampaignMedia from "@/components/CampaignMedia";
 import CampaignProgress from "@/components/CampaignProgress";
+import { useGetCampaign } from "@/hooks/useGetCampaign";
+import { calculateDaysLeft } from "@/utils/daysLeft";
 import React from "react";
+import { useParams } from "react-router-dom";
 
 const Detail = () => {
+  const { id } = useParams();
+  const { campaign, loading, error } = useGetCampaign(id);
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (error || !campaign) {
+    return <div className="text-center py-10">Campaign not found.</div>;
+  }
+  const daysLeft = calculateDaysLeft(campaign.deadline);
+
   return (
     <div className="py-8">
       {" "}
       <CampaignHeader
-        title="Clean Water for Rural Communities"
-        category="environment"
-        location="Padang"
+        title={campaign.title}
+        category={campaign.category}
+        location={campaign.location}
       />
       <div className="flex">
         {" "}
         <div className="w-3/5">
           {" "}
-          <CampaignMedia image="src/assets/cardImage.png" />
-          <CampaignDescription description="Natural disasters often strike without warning, leaving behind devastation and disrupting access to essential services. In the midst of such emergencies, immediate medical assistance is crucial to save lives and prevent the spread of disease. This campaign aims to provide critical medical supplies such as medicines, bandages, antiseptics, first aid kits, and emergency medical support to the hardest-hit communities. With your donation, our team of volunteers can respond more quickly, reaching affected areas to deliver urgent care and support overwhelmed local health facilities. Your contribution not only helps victims survive during the crisis but also brings hope and humanity in times of despair. Together, we can make a real difference." />
+          <CampaignMedia image={campaign.imageUrl} />
+          <CampaignDescription description={campaign.detailDescription} />
         </div>
         <div className="flex-1">
-          <CampaignProgress raised="9750" goal="15000" daysLeft="6" />
+          <CampaignProgress
+            raised={campaign.raised}
+            goal={campaign.goal}
+            daysLeft={daysLeft}
+          />
         </div>
       </div>
     </div>

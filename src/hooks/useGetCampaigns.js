@@ -24,6 +24,7 @@ export function useGetCampaigns(status) {
         if (!res.ok) {
           throw new Error("Network response error");
         }
+
         const data = await res.json();
         setCampaigns(data);
       } catch (error) {
