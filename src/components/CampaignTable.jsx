@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
+import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 
 const getStatusBadge = (status) => {
   return (
@@ -10,26 +11,15 @@ const getStatusBadge = (status) => {
 };
 
 const CampaignTable = () => {
-  const [pendingCampaigns, setPendingCampaigns] = useState([]);
+  const { campaigns, loading, error } = useGetCampaigns("PENDING");
 
-  useEffect(() => {
-    const fetchPendingCampaigns = async () => {
-      try {
-        const res = await fetch(
-          "http://localhost:3000/campaigns?status=PENDING",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        const data = await res.json();
-        setPendingCampaigns(data);
-      } catch (error) {
-        console.error("Failed to fetch campaigns: ", error);
-      }
-    };
-    fetchPendingCampaigns();
-  }, []);
+  if (loading) {
+    return <p>Loading campaigns...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
   return (
     <div className="overflow-x-auto border rounded-md">
@@ -46,7 +36,7 @@ const CampaignTable = () => {
           </tr>
         </thead>
         <tbody>
-          {pendingCampaigns.map((campaign) => (
+          {campaigns.map((campaign) => (
             <tr key={campaign.id} className="border-t">
               <td className="p-3 font-semibold">{campaign.title}</td>
               <td className="p-3 font-semibold">{campaign.creator.username}</td>

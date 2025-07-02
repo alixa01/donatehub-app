@@ -4,28 +4,31 @@ import { IoTimeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import DonationForm from "@/components/DonationForm";
+import { calculateDaysLeft } from "@/utils/daysLeft";
 
 const CampaignCard = ({
   id,
   title,
-  image,
   shortDescription,
+  imageUrl,
   category,
-  raised,
   goal,
-  daysLeft,
-  status,
+  raised,
+  deadline,
 }) => {
-  if (status !== "Approved") return null;
-
   const percentage = Math.round((raised / goal) * 100);
+  const daysLeft = calculateDaysLeft(deadline);
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden w-full">
       <Link to={`/${id}`} className="block">
         {/* IMAGE */}
         <div className="relative">
-          <img src={image} alt={title} className="w-full h-60 object-cover" />
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-full h-60 object-cover"
+          />
           <span className="absolute top-2 right-2 bg-black text-white text-xs px-3 py-1 rounded-full shadow">
             {category}
           </span>

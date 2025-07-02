@@ -2,11 +2,22 @@ import React from "react";
 import { Link } from "react-router-dom";
 import CampaignCard from "@/components/CampaignCard";
 import { Button } from "@/components/ui/button";
-import { campaigns } from "@/lib/campaign";
 import { useAuth } from "@/context/AuthContext";
+import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 
 const Home = () => {
   const { user } = useAuth();
+
+  const { campaigns, loading, error } = useGetCampaigns("APPROVED");
+
+  if (loading) {
+    return <p>Loading campaigns...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
   return (
     <div>
       <div className="px-20">
@@ -31,8 +42,8 @@ const Home = () => {
           ) : null}
         </div>
         <div className=" grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {campaigns.map((c, i) => (
-            <CampaignCard key={i} {...c} />
+          {campaigns.map((campaign) => (
+            <CampaignCard key={campaign.id} {...campaign} />
           ))}
         </div>
       </div>
