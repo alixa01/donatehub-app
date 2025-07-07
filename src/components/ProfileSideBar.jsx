@@ -3,8 +3,19 @@ import { FaUserCircle } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useGetUser } from "@/hooks/useGetUser";
+import { shortenAddress } from "@/utils/format";
 
 const ProfileSideBar = () => {
+  const { user, loading, error } = useGetUser();
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (error || !user) {
+    return <div className="text-center py-10">User not found.</div>;
+  }
+
   return (
     <div className="w-[40%]">
       {" "}
@@ -13,11 +24,13 @@ const ProfileSideBar = () => {
           <FaUserCircle className="w-20 h-20 mb-5 text-gray-500" />
           {/* HEADER PROFILE */}
           <div className="flex flex-col items-center gap-y-1">
-            <h1 className="font-semibold text-2xl">Alixa Arivya Tofer</h1>
-            <span className="text-gray-600 text-sm">0x79b8...FF0Ae</span>
+            <h1 className="font-semibold text-2xl">{user.username}</h1>
+            <span className="text-gray-600 text-sm">
+              {shortenAddress(user.walletAddress)}
+            </span>
             <span className="flex items-center gap-2 text-gray-600 text-sm">
               <SlCalender />
-              Joined February 15, 2025
+              Joined at {new Date(user.createdAt).toLocaleDateString()}
             </span>
           </div>
           {/* DETAIL */}

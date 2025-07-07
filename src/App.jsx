@@ -6,22 +6,25 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PendingCampaigns from "./pages/PendingCampaigns";
-import Profil from "./pages/Profil";
+import Profile from "./pages/Profile";
 import CreateCampaignPage from "./pages/CreateCampaign";
+import NotFoundPage from "./pages/NotFound";
 
 const App = () => {
   return (
-    <MainLayout>
-      <Routes>
+    <Routes>
+      <Route element={<MainLayout />}>
+        {" "}
         <Route path="/" element={<Home />} />
         <Route path="/campaign/:id" element={<Detail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/pending-campaign" element={<PendingCampaigns />} />
-        <Route path="/profil" element={<Profil />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/create-campaign" element={<CreateCampaignPage />} />
-      </Routes>
-    </MainLayout>
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
   );
 };
 

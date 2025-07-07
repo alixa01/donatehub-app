@@ -3,9 +3,20 @@ import ProfileSideBar from "@/components/ProfileSideBar";
 import DonationHistory from "@/components/DonationHistory";
 import MyCampaigns from "@/components/MyCampaigns";
 import { Button } from "@/components/ui/button";
+import { useGetUser } from "@/hooks/useGetUser";
+import { useParams } from "react-router-dom";
 
-const Profil = () => {
+const Profile = () => {
+  const { walletAddress } = useParams();
+  const { user, loading, error } = useGetUser(walletAddress);
   const [activeTab, setActiveTab] = useState("donation");
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (error || !user) {
+    return <div className="text-center py-10">User not found.</div>;
+  }
 
   return (
     <div className="px-6 lg:px-20 py-8 flex flex-row gap-8">
@@ -43,4 +54,4 @@ const Profil = () => {
   );
 };
 
-export default Profil;
+export default Profile;

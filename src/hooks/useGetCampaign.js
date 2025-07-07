@@ -25,7 +25,6 @@ export function useGetCampaign(id) {
         setLoading(false);
       }
     };
-
     fetchCampaign();
   }, [id]);
 

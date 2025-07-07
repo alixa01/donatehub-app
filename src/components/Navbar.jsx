@@ -21,7 +21,7 @@ function Navbar() {
         <div className="flex items-center gap-4">
           {user ? (
             <Button asChild variant="outline">
-              <Link key={user.walletAddress} to={`user/${user.walletAddress}`}>
+              <Link key={user.walletAddress} to={"/profile"}>
                 <span>{shortenAddress(user.walletAddress)}</span>
               </Link>
             </Button>
