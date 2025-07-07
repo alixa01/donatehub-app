@@ -9,7 +9,7 @@ const CampaignProgress = ({ raised, goal, daysLeft }) => {
     <div className="pr-20">
       <div className="bg-white shadow-md border rounded-md p-4">
         {" "}
-        <h1 className="text-xl font-semibold pb-4">Campaign Progress</h1>
+        <h1 className="text-xl font-semibold pb-2">Campaign Progress</h1>
         {/* PROGRESS */}
         <Progress value={percentage}></Progress>
         {/* FUNDING */}

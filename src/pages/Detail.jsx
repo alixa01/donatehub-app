@@ -30,12 +30,12 @@ const Detail = () => {
       />
       <div className="flex">
         {" "}
-        <div className="w-3/5">
+        <div className="w-3/5 h-full">
           {" "}
-          <CampaignMedia image={campaign.imageUrl} />
-          <CampaignDescription description={campaign.detailDescription} />
+          <CampaignMedia image={campaign.imageUrl} title={campaign.title} />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 space-y-5">
+          <CampaignDescription description={campaign.detailDescription} />
           <CampaignProgress
             raised={campaign.raised}
             goal={campaign.goal}

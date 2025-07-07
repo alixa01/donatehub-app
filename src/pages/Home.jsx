@@ -8,15 +8,7 @@ import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 const Home = () => {
   const { user } = useAuth();
 
-  const { campaigns, loading, error } = useGetCampaigns("APPROVED");
-
-  if (loading) {
-    return <p>Loading campaigns...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
+  const { campaigns, loading, error } = useGetCampaigns("ACTIVE");
 
   return (
     <div>
@@ -41,10 +33,25 @@ const Home = () => {
             </Link>
           ) : null}
         </div>
-        <div className=" grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {campaigns.map((campaign) => (
-            <CampaignCard key={campaign.id} {...campaign} />
-          ))}
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          {loading ? (
+            <p className="col-span-full text-center py-10">
+              Loading campaigns...
+            </p>
+          ) : error ? (
+            <p className="col-span-full text-center py-10 text-red-600">
+              {error.message}
+            </p>
+          ) : campaigns.length === 0 ? (
+            <p className="col-span-full text-center py-10 text-gray-500">
+              No active campaigns found at the moment.
+            </p>
+          ) : (
+            campaigns.map((campaign) => (
+              <CampaignCard key={campaign.id} {...campaign} />
+            ))
+          )}
         </div>
       </div>
     </div>

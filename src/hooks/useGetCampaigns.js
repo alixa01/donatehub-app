@@ -21,6 +21,9 @@ export function useGetCampaigns(status) {
             header: { "Content-Type": "application-json" },
           }
         );
+        if (res.status === 404) {
+          throw new Error("Campaigns not found");
+        }
         if (!res.ok) {
           throw new Error("Network response error");
         }

@@ -1,18 +1,18 @@
 import React from "react";
-
-const CampaignMedia = ({ image }) => {
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+const CampaignMedia = ({ image, title }) => {
+  const imageItems = [
+    {
+      original: image,
+      thumbnail: image,
+      originalAlt: title,
+      thumbnailAlt: title,
+    },
+  ];
   return (
     <div className="px-20 pb-4 w-full">
-      <img
-        src={image}
-        alt=""
-        className="rounded-md shadow-md w-full h-96 object-cover mx-auto"
-      />
-      <div className="grid grid-cols-3 gap-3 pt-3">
-        <img src={image} alt="" className="rounded-md shadow-md" />
-        <img src={image} alt="" className="rounded-md shadow-md" />
-        <img src={image} alt="" className="rounded-md shadow-md" />
-      </div>
+      <ImageGallery items={imageItems} originalHeight={25} originalWidth={25} />
     </div>
   );
 };
