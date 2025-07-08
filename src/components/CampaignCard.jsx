@@ -21,14 +21,14 @@ const CampaignCard = ({
   const daysLeft = calculateDaysLeft(deadline);
 
   const truncatedDesc = truncate(shortDescription, {
-    length: 50,
+    length: 90,
     separator: " ",
     omission: "...",
   });
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden w-full flex flex-col">
-      <Link key={id} to={`/campaign/${id}`} className="block">
+    <div className="border bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full transition-transform duration-200 hover:scale-[1.02]">
+      <Link to={`/campaign/${id}`} className="block">
         {/* IMAGE */}
         <div className="relative">
           <img
@@ -36,24 +36,28 @@ const CampaignCard = ({
             alt={title}
             className="w-full h-60 object-cover"
           />
-          <span className="absolute top-2 right-2 bg-black text-white text-xs px-3 py-1 rounded-full shadow">
+          <span className="absolute top-2 right-2 bg-gray-800 text-white text-xs px-3 py-1 rounded-full shadow">
             {category}
           </span>
         </div>
 
         {/* TITLE & DESC */}
-        <div className="p-2">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <p className="text-sm text-gray-600 mt-2">{truncatedDesc}</p>
+        <div className="px-4">
+          <h2 className="text-gray-800 text-lg font-bold leading-tight my-2 line-clamp-2">
+            {title}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-2 min-h-[60px] line-clamp-3">
+            {truncatedDesc}
+          </p>
         </div>
       </Link>
 
-      <div className="mt-auto">
+      <div className="px-2 mt-auto">
         {" "}
         {/* PROGRESS */}
         <div className="px-2">
           <div className="flex justify-between">
-            <span className="font-semibold">
+            <span className="text-gray-800 font-semibold">
               ${raised.toLocaleString()} Raised
             </span>
             <span className="text-gray-500 font-semibold">
@@ -70,9 +74,7 @@ const CampaignCard = ({
         <div className="p-2">
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="w-full bg-slate-900 text-white hover:bg-slate-700">
-                Donate Now
-              </Button>
+              <Button className="w-full bg-gray-800">Donate Now</Button>
             </DialogTrigger>
             <DialogContent>
               <DonationForm />

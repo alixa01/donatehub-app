@@ -9,6 +9,7 @@ import PendingCampaigns from "./pages/PendingCampaigns";
 import Profile from "./pages/Profile";
 import CreateCampaignPage from "./pages/CreateCampaign";
 import NotFoundPage from "./pages/NotFound";
+import RouteAdmin from "./components/RouteAdmin";
 
 const App = () => {
   return (
@@ -17,9 +18,11 @@ const App = () => {
         {" "}
         <Route path="/" element={<Home />} />
         <Route path="/campaign/:id" element={<Detail />} />
-        <Route path="/pending-campaign" element={<PendingCampaigns />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-campaign" element={<CreateCampaignPage />} />
+        <Route element={<RouteAdmin />}>
+          <Route path="/pending-campaign" element={<PendingCampaigns />} />
+        </Route>
       </Route>
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/login" element={<Login />} />

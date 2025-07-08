@@ -17,17 +17,13 @@ const Home = () => {
           <h1 className="text-4xl font-semibold">Campaigns</h1>
           {user?.role === "ADMIN" ? (
             <Link to="/pending-campaign">
-              <Button
-                variant="outline"
-                className=" bg-slate-900 text-white hover:bg-slate-700 hover:text-white hover:cursor-pointer">
+              <Button className="bg-gray-800 hover:bg-gray-700 hover:cursor-pointer">
                 Pending campaign
               </Button>
             </Link>
           ) : user?.role === "USER" ? (
             <Link to="/create-campaign">
-              <Button
-                variant="outline"
-                className=" bg-slate-900 text-white hover:bg-slate-700 hover:text-white hover:cursor-pointer">
+              <Button className="bg-gray-800 hover:bg-gray-700 hov hover:cursor-pointer">
                 Create campaign
               </Button>
             </Link>

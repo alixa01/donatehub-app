@@ -9,12 +9,12 @@ function Navbar() {
   return (
     <>
       {" "}
-      <nav className="flex justify-between px-20 h-22 bg-white shadow-md">
+      <nav className="flex justify-between px-20 h-22  shadow-md">
         {/* ICON, WEB NAME */}
         <Link to="/" className="flex justify-between items-center gap-2">
           {" "}
-          <div className="bg-black w-10 h-10 rounded-full"></div>
-          <h1 className="text-xl font-bold">Donate Hub</h1>
+          <div className="bg-gray-800 w-10 h-10 rounded-full"></div>
+          <h1 className="text-gray-800 text-xl font-bold">Donate Hub</h1>
         </Link>
 
         {/* LOGIN, REGISTER, USER */}

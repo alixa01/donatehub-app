@@ -7,28 +7,32 @@ const CampaignProgress = ({ raised, goal, daysLeft }) => {
   const percentage = Math.round((raised / goal) * 100);
   return (
     <div className="pr-20">
-      <div className="bg-white shadow-md border rounded-md p-4">
+      <div className="bg-white shadow-md border rounded-lg p-6 space-y-4">
         {" "}
-        <h1 className="text-xl font-semibold pb-2">Campaign Progress</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Campaign Progress</h1>
         {/* PROGRESS */}
         <Progress value={percentage}></Progress>
         {/* FUNDING */}
-        <div className="flex justify-between pt-4">
+        <div className="flex justify-between items-baseline">
           <div className="flex flex-col">
-            <span className="text-2xl font-semibold">
+            <span className="font-bold text-2xl text-gray-800">
               $ {raised.toLocaleString()}
             </span>
-            <span className="text-gray-500">
+            <span className="text-sm text-muted-foreground">
               raised of $ {goal.toLocaleString()} goal
             </span>
           </div>
           <div className="flex flex-col">
-            <span className="text-2xl font-semibold">{percentage} %</span>
-            <span className="text-gray-500">funded</span>
+            <span className="font-bold text-2xl text-gray-800">
+              {percentage} %
+            </span>
+            <span className="text-sm text-muted-foreground">funded</span>
           </div>
         </div>
-        <div className="flex items-center gap-1 text-gray-500 text-sm py-4">
-          <IoTimeOutline /> <span className=""> {daysLeft} Days left</span>
+        {/* DEADLINE */}
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <IoTimeOutline size={20} />{" "}
+          <span className=""> {daysLeft} Days left</span>
         </div>
         <hr />
         <DonationForm />

@@ -1,6 +1,7 @@
 import React from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import "../styles/gallery.css";
 
 const CampaignMedia = ({ image, title }) => {
   const imageItems =
@@ -14,7 +15,7 @@ const CampaignMedia = ({ image, title }) => {
       : [];
   return (
     <div className="px-20 pb-4 w-full">
-      <ImageGallery items={imageItems} originalHeight={25} originalWidth={25} />
+      <ImageGallery items={imageItems} showPlayButton={false} />
     </div>
   );
 };

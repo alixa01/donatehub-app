@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 const DonationForm = () => {
   return (
-    <form className="py-4">
+    <form className="">
       {/* FORM */}
       <div className="flex flex-col pb-4">
         <label
@@ -28,7 +28,7 @@ const DonationForm = () => {
       {/* SUBMIT */}
       <Button
         type="submit"
-        className="w-full  bg-slate-900 text-white rounded-md shadow-md py-1 ease-in-out duration-300 hover:bg-slate-700 hover:cursor-pointer">
+        className="w-full  bg-gray-900 text-white rounded-md shadow-md py-1 ease-in-out duration-300 hover:bg-gray-700 hover:cursor-pointer">
         Donate Now
       </Button>
     </form>

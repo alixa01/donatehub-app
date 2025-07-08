@@ -27,8 +27,8 @@ const ProfileSideBar = () => {
   return (
     <div className="w-[40%]">
       {" "}
-      <div className="shadow-md border border-slate-200 rounded-xl ">
-        <div className="flex items-center flex-col py-10">
+      <div className="flex items-center shadow-md border border-slate-200 rounded-xl h-full ">
+        <div className="flex items-center flex-col py-10 w-full">
           <FaUserCircle className="w-20 h-20 mb-5 text-gray-500" />
           {/* HEADER PROFILE */}
           <div className="flex flex-col items-center gap-y-1">
@@ -58,13 +58,10 @@ const ProfileSideBar = () => {
           </div>
           {/*  */}
           <div className="w-full pt-5 flex flex-col items-center gap-y-4">
-            <Button variant="outline" className="w-[60%]">
-              Edit Profile
-            </Button>
             <Button
               onClick={handleLogout}
               variant="destructive"
-              className="w-[60%] bg-slate-900 text-white hover:bg-slate-700 hover:text-white">
+              className="w-[60%] bg-gray-800 text-white hover:bg-gray-700 hover:text-white">
               Logout
             </Button>
           </div>
