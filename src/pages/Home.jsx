@@ -43,10 +43,6 @@ const Home = () => {
             <p className="col-span-full text-center py-10 text-red-600">
               {error.message}
             </p>
-          ) : campaigns.length === 0 ? (
-            <p className="col-span-full text-center py-10 text-gray-500">
-              No active campaigns found at the moment.
-            </p>
           ) : (
             campaigns.map((campaign) => (
               <CampaignCard key={campaign.id} {...campaign} />

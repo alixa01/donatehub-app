@@ -8,31 +8,35 @@ const CreateCampaignPage = () => {
 
   const handleCreateCampaign = async (campaignData) => {
     const data = new FormData();
-    const { campaignImage, ...otherData } = campaignData;
+    const { imageFiles, ...otherData } = campaignData;
 
     for (const key in otherData) {
       data.append(key, otherData[key]);
     }
 
-    if (campaignImage) {
-      data.append("imageUrl", campaignImage);
+    if (imageFiles) {
+      for (let i = 0; i < imageFiles.length; i++) {
+        data.append("images", imageFiles[i]);
+      }
     }
 
     try {
-      const response = await fetch("http://localhost:3000/campaign", {
+      const res = await fetch("http://localhost:3000/campaign", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: data,
       });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create campaign");
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to create campaign");
       }
+
       alert("Campaign berhasil diajukan");
       navigate("/");
     } catch (error) {
-      console.log(error);
-      alert("Gagal membuat campaign");
+      console.error("Error creating campaign", error);
+      alert(`Gagal membuat campaign: ${error.message}`);
     }
   };
 

@@ -2,12 +2,20 @@ import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetUser } from "@/hooks/useGetUser";
 import { shortenAddress } from "@/utils/format";
+import { useAuth } from "@/context/AuthContext";
 
 const ProfileSideBar = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
   const { user, loading, error } = useGetUser();
+
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;
   }
@@ -54,9 +62,10 @@ const ProfileSideBar = () => {
               Edit Profile
             </Button>
             <Button
-              asChild
+              onClick={handleLogout}
+              variant="destructive"
               className="w-[60%] bg-slate-900 text-white hover:bg-slate-700 hover:text-white">
-              <Link to="/pending-campaign">Pending Campaign</Link>
+              Logout
             </Button>
           </div>
         </div>

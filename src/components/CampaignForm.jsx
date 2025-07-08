@@ -11,17 +11,28 @@ import {
 import { useCampaignForm } from "@/hooks/useCampaignForm";
 
 const CampaignForm = ({ onSubmit }) => {
-  const { values, setters, handleSubmit, errors } = useCampaignForm(onSubmit);
+  const {
+    values,
+    imageFiles,
+    errors,
+    handleChange,
+    setCategory,
+    setImageFiles,
+    handleSubmit,
+  } = useCampaignForm(onSubmit);
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       {/* Title */}
       <div>
-        <label className="block text-sm font-medium mb-1">Campaign Title</label>
+        <label htmlFor="title" className="block text-sm font-medium mb-1">
+          Campaign Title
+        </label>
         <Input
+          id="title"
           name="title"
           value={values.title}
-          onChange={(e) => setters.setTitle(e.target.value)}
+          onChange={handleChange}
           placeholder="Enter campaign title"
         />
         {errors.title && (
@@ -31,13 +42,14 @@ const CampaignForm = ({ onSubmit }) => {
 
       {/* Detail Description */}
       <div>
-        <label className="block text-sm font-medium mb-1">
+        <label htmlFor="detailDesc" className="block text-sm font-medium mb-1">
           Detail Description
         </label>
         <Textarea
+          id="detailDesc"
           name="detailDescription"
           value={values.detailDescription}
-          onChange={(e) => setters.setDetailDescription(e.target.value)}
+          onChange={handleChange}
           placeholder="Detailed description of your campaign"
         />
         {errors.detailDescription && (
@@ -49,13 +61,14 @@ const CampaignForm = ({ onSubmit }) => {
 
       {/* Short Description */}
       <div>
-        <label className="block text-sm font-medium mb-1">
+        <label htmlFor="shortDesc" className="block text-sm font-medium mb-1">
           Short Description
         </label>
         <Input
+          id="shortDesc"
           name="shortDescription"
           value={values.shortDescription}
-          onChange={(e) => setters.setShortDescription(e.target.value)}
+          onChange={handleChange}
           placeholder="Brief summary of your campaign"
         />
         {errors.shortDescription && (
@@ -65,8 +78,13 @@ const CampaignForm = ({ onSubmit }) => {
 
       {/* Category */}
       <div>
-        <label className="block text-sm font-medium mb-1">Category</label>
-        <Select onValueChange={setters.setCategory} value={values.category}>
+        <label htmlFor="category" className="block text-sm font-medium mb-1">
+          Category
+        </label>
+        <Select
+          id="category"
+          onValueChange={setCategory}
+          value={values.category}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select Category" />
           </SelectTrigger>
@@ -84,14 +102,15 @@ const CampaignForm = ({ onSubmit }) => {
 
       {/* Goal */}
       <div>
-        <label className="block text-sm font-medium mb-1">
+        <label htmlFor="goal" className="block text-sm font-medium mb-1">
           Goal Amount (USD)
         </label>
         <Input
+          id="goal"
           name="goal"
           type="number"
           value={values.goal}
-          onChange={(e) => setters.setGoal(e.target.value)}
+          onChange={handleChange}
           placeholder="e.g., 1000"
         />
         {errors.goal && (
@@ -99,13 +118,17 @@ const CampaignForm = ({ onSubmit }) => {
         )}
       </div>
 
+      {/* Deadline */}
       <div>
-        <label className="block text-sm font-medium mb-1">Deadline</label>
+        <label htmlFor="deadline" className="block text-sm font-medium mb-1">
+          Deadline
+        </label>
         <Input
+          id="deadline"
           name="deadline"
           type="date"
           value={values.deadline}
-          onChange={(e) => setters.setDeadline(e.target.value)}></Input>{" "}
+          onChange={handleChange}></Input>{" "}
         {errors.deadline && (
           <p className="text-sm text-red-500 mt-1">{errors.deadline}</p>
         )}
@@ -113,13 +136,14 @@ const CampaignForm = ({ onSubmit }) => {
 
       {/* Location */}
       <div>
-        <label className="block text-sm font-medium mb-1">
+        <label htmlFor="location" className="block text-sm font-medium mb-1">
           Campaign Location
         </label>
         <Input
+          id="location"
           name="location"
           value={values.location}
-          onChange={(e) => setters.setLocation(e.target.value)}
+          onChange={handleChange}
           placeholder="Enter campaign location"
         />
         {errors.location && (
@@ -129,18 +153,35 @@ const CampaignForm = ({ onSubmit }) => {
 
       {/* Campaign Image */}
       <div>
-        <label className="block text-sm font-medium mb-1">Campaign Image</label>
+        <label htmlFor="image" className="block text-sm font-medium mb-1">
+          Campaign Image
+        </label>
         <Input
-          name="imageUrl"
+          id="image"
+          name="images"
           type="file"
           accept="image/*"
-          onChange={(e) => setters.setImageUrl(e.target.files[0])}
-        />
+          multiple
+          onChange={(e) => setImageFiles(e.target.files)}
+        />{" "}
+        {errors.images && (
+          <p className="text-sm text-red-500 mt-1">{errors.images}</p>
+        )}
+        {imageFiles && imageFiles.length > 0 && (
+          <div className="mt-2 text-sm text-gray-600">
+            <p className="font-medium">Selected files:</p>
+            <ul className="list-disc pl-5">
+              {Array.from(imageFiles).map((file, index) => (
+                <li key={index}>{file.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Submit */}
       <Button
-        type="submit"
+        onClick={handleSubmit}
         className="w-full bg-slate-900 text-white hover:bg-slate-700 cursor-pointer">
         Submit Campaign
       </Button>

@@ -11,7 +11,7 @@ const CampaignCard = ({
   id,
   title,
   shortDescription,
-  imageUrl,
+  imageUrls,
   category,
   goal,
   raised,
@@ -32,7 +32,7 @@ const CampaignCard = ({
         {/* IMAGE */}
         <div className="relative">
           <img
-            src={imageUrl}
+            src={imageUrls?.[0]}
             alt={title}
             className="w-full h-60 object-cover"
           />

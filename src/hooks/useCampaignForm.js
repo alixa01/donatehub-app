@@ -1,77 +1,63 @@
 import { useState } from "react";
 
 export function useCampaignForm(onSubmit) {
-  const [title, setTitle] = useState("");
-  const [shortDescription, setShortDescription] = useState("");
-  const [detailDescription, setDetailDescription] = useState("");
-  const [goal, setGoal] = useState(0);
-  const [deadline, setDeadline] = useState("");
-  const [location, setLocation] = useState("");
-  const [category, setCategory] = useState("");
-  const [imageUrl, setImageUrl] = useState(null);
+  const [values, setValues] = useState({
+    title: "",
+    shortDescription: "",
+    detailDescription: "",
+    goal: "",
+    deadline: "",
+    location: "",
+    category: "",
+  });
 
+  const [imageFiles, setImageFiles] = useState(null);
   const [errors, setErrors] = useState({});
+
+  // INPUT TEXT
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const newErrors = {};
-    if (!title.trim()) newErrors.title = "Judul campaign wajib diisi.";
-    if (!shortDescription.trim())
+
+    // VALIDASI
+    if (!values.title.trim()) newErrors.title = "Judul wajib diisi.";
+    if (!values.shortDescription.trim())
       newErrors.shortDescription = "Deskripsi singkat wajib diisi.";
-    if (!detailDescription.trim())
+    if (!values.detailDescription.trim())
       newErrors.detailDescription = "Deskripsi detail wajib diisi.";
-    if (!category) newErrors.category = "Kategori wajib dipilih.";
-    if (!goal) newErrors.goal = "Target donasi wajib diisi.";
-    if (parseFloat(goal) <= 0)
-      newErrors.goal = "Target donasi harus lebih dari 0.";
-    if (!deadline.trim()) newErrors.deadline = "Deadline wajib diisi.";
-    if (!location.trim()) newErrors.location = "Lokasi wajib diisi.";
+    if (!values.category) newErrors.category = "Kategori wajib dipilih.";
+    if (!values.goal) newErrors.goal = "Target donasi wajib diisi.";
+    else if (parseFloat(values.goal) <= 0)
+      newErrors.goal = "Target harus lebih dari 0.";
+    if (!values.deadline) newErrors.deadline = "Deadline wajib diisi.";
+    if (!values.location.trim()) newErrors.location = "Lokasi wajib diisi.";
+    if (!imageFiles || imageFiles.length === 0)
+      newErrors.images = "Minimal 1 gambar wajib diunggah.";
+    else if (imageFiles.length > 5) newErrors.images = "Maksimal 5 gambar.";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
     setErrors({});
 
-    const campaignData = {
-      title,
-      shortDescription,
-      detailDescription,
-      goal: parseFloat(goal) || 0,
-      deadline,
-      location,
-      category,
-      imageUrl,
-    };
     if (onSubmit) {
-      await onSubmit(campaignData);
+      await onSubmit({ ...values, imageFiles });
     }
   };
 
   return {
-    values: {
-      title,
-      shortDescription,
-      detailDescription,
-      goal,
-      deadline,
-      location,
-      category,
-      imageUrl,
-    },
-    setters: {
-      setTitle,
-      setShortDescription,
-      setDetailDescription,
-      setGoal,
-      setDeadline,
-      setLocation,
-      setCategory,
-      setImageUrl,
-    },
-    handleSubmit,
+    values,
+    imageFiles,
     errors,
+    handleChange,
+    setCategory: (value) => setValues((prev) => ({ ...prev, category: value })), // Setter khusus untuk Select
+    setImageFiles,
+    handleSubmit,
   };
 }
