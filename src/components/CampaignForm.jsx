@@ -128,7 +128,7 @@ const CampaignForm = ({ onSubmit }) => {
           name="deadline"
           type="date"
           value={values.deadline}
-          onChange={handleChange}></Input>{" "}
+          onChange={handleChange}></Input>
         {errors.deadline && (
           <p className="text-sm text-red-500 mt-1">{errors.deadline}</p>
         )}
@@ -163,7 +163,7 @@ const CampaignForm = ({ onSubmit }) => {
           accept="image/*"
           multiple
           onChange={(e) => setImageFiles(e.target.files)}
-        />{" "}
+        />
         {errors.images && (
           <p className="text-sm text-red-500 mt-1">{errors.images}</p>
         )}

@@ -13,6 +13,7 @@ export function useGetCampaignsByCreator() {
       setLoading(false);
       return;
     }
+
     const fetchCampaignsByCreator = async () => {
       setLoading(true);
       setError(null);
@@ -26,6 +27,7 @@ export function useGetCampaignsByCreator() {
         setLoading(false);
       }
     };
+
     fetchCampaignsByCreator();
   }, [token]);
 

@@ -18,6 +18,7 @@ const CampaignCard = ({
   deadline,
 }) => {
   const percentage = Math.round((raised / goal) * 100);
+
   const daysLeft = calculateDaysLeft(deadline);
 
   const truncatedDesc = truncate(shortDescription, {
@@ -29,7 +30,7 @@ const CampaignCard = ({
   return (
     <div className="border bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full transition-transform duration-200 hover:scale-[1.02]">
       <Link to={`/campaign/${id}`} className="block">
-        {/* IMAGE */}
+        {/* Image */}
         <div className="relative">
           <img
             src={imageUrls?.[0]}
@@ -41,7 +42,7 @@ const CampaignCard = ({
           </span>
         </div>
 
-        {/* TITLE & DESC */}
+        {/* Title & Desc */}
         <div className="px-4">
           <h2 className="text-gray-800 text-lg font-bold leading-tight my-2 line-clamp-2">
             {title}
@@ -52,9 +53,8 @@ const CampaignCard = ({
         </div>
       </Link>
 
+      {/* Progress */}
       <div className="px-2 mt-auto">
-        {" "}
-        {/* PROGRESS */}
         <div className="px-2">
           <div className="flex justify-between">
             <span className="text-gray-800 font-semibold">
@@ -65,12 +65,14 @@ const CampaignCard = ({
             </span>
           </div>
           <Progress value={percentage} className="mt-1 mb-2" />
+          {/* Deadline */}
           <div className="flex items-center gap-1 text-sm text-gray-600">
             <IoTimeOutline />
             <span>{daysLeft} Days Left</span>
           </div>
         </div>
-        {/* BUTTON, FORM */}
+
+        {/* Button */}
         <div className="p-2">
           <Dialog>
             <DialogTrigger asChild>

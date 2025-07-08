@@ -1,36 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { useWallet } from "@/hooks/useWallet";
 import { useAuth } from "@/context/AuthContext";
+import { useAuthAction } from "@/hooks/useAuthAction";
 
 const LoginCard = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
   const { address, connectWallet } = useWallet();
   const { login } = useAuth();
+  const { handleLogin, error, setError } = useAuthAction();
 
   useEffect(() => {
     if (!address) return;
+
     (async () => {
       setError("");
-      try {
-        const res = await fetch("http://localhost:3000/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ walletAddress: address }),
-        });
-        const body = await res.json();
-        if (!res.ok) throw new Error(body.error || "Login gagal");
-
-        login({ token: body.token, user: body.user });
-        navigate("/");
-      } catch (err) {
-        setError(err.message);
-      }
+      await handleLogin({
+        walletAddress: address,
+        onSuccess: ({ token, user }) => {
+          login({ token, user });
+          navigate("/");
+        },
+      });
     })();
-  }, [address, navigate, login]);
+  }, [address, handleLogin, login, navigate, setError]);
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -51,7 +46,7 @@ const LoginCard = () => {
           {error && <p className="text-center text-red-500 text-sm">{error}</p>}
 
           <p className="text-center text-sm">
-            Don't have an account?{" "}
+            Don't have an account?
             <span
               className="font-semibold cursor-pointer hover:underline"
               onClick={() => navigate("/register")}>

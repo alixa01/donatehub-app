@@ -8,16 +8,14 @@ function Navbar() {
 
   return (
     <>
-      {" "}
       <nav className="flex justify-between px-20 h-22  shadow-md">
-        {/* ICON, WEB NAME */}
+        {/* Web Name, Icon */}
         <Link to="/" className="flex justify-between items-center gap-2">
-          {" "}
           <div className="bg-gray-800 w-10 h-10 rounded-full"></div>
           <h1 className="text-gray-800 text-xl font-bold">Donate Hub</h1>
         </Link>
 
-        {/* LOGIN, REGISTER, USER */}
+        {/* Button Login, Register, User */}
         <div className="flex items-center gap-4">
           {user ? (
             <Button asChild variant="outline">

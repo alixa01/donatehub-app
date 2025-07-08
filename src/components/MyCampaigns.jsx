@@ -18,9 +18,8 @@ const MyCampaigns = () => {
           </span>
         </div>
 
-        {/* CARD CAMPAIGNS */}
+        {/* Card My Campaigns */}
         <div className="flex-1 overflow-y-auto p-5">
-          {" "}
           <div className="flex flex-col gap-y-4">
             {loading ? (
               <p className="text-center py-10">Loading campaigns...</p>

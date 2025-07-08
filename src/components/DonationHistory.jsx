@@ -10,7 +10,7 @@ const DonationHistory = () => {
             View all your past donations and their status
           </span>
 
-          {/* CARD DONATION */}
+          {/* Card Donation History */}
           <div className="border flex flex-row justify-between items-center rounded-lg p-3 mt-5">
             <div>
               <h1 className="font-semibold text-md">Clear Water Initiative</h1>

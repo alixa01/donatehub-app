@@ -19,5 +19,6 @@ export const useWallet = () => {
       alert("MetaMask not installed");
     }
   };
+
   return { address, connectWallet };
 };

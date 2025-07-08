@@ -8,11 +8,11 @@ const CampaignProgress = ({ raised, goal, daysLeft }) => {
   return (
     <div className="pr-20">
       <div className="bg-white shadow-md border rounded-lg p-6 space-y-4">
-        {" "}
+        {/* Progress */}
         <h1 className="text-2xl font-bold text-gray-800">Campaign Progress</h1>
-        {/* PROGRESS */}
         <Progress value={percentage}></Progress>
-        {/* FUNDING */}
+
+        {/* Funding */}
         <div className="flex justify-between items-baseline">
           <div className="flex flex-col">
             <span className="font-bold text-2xl text-gray-800">
@@ -29,9 +29,10 @@ const CampaignProgress = ({ raised, goal, daysLeft }) => {
             <span className="text-sm text-muted-foreground">funded</span>
           </div>
         </div>
-        {/* DEADLINE */}
+
+        {/* Deadline */}
         <div className="flex items-center gap-2 text-muted-foreground">
-          <IoTimeOutline size={20} />{" "}
+          <IoTimeOutline size={20} />
           <span className=""> {daysLeft} Days left</span>
         </div>
         <hr />

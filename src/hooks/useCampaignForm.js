@@ -14,7 +14,7 @@ export function useCampaignForm(onSubmit) {
   const [imageFiles, setImageFiles] = useState(null);
   const [errors, setErrors] = useState({});
 
-  // INPUT TEXT
+  // Input Data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -24,7 +24,7 @@ export function useCampaignForm(onSubmit) {
     event.preventDefault();
     const newErrors = {};
 
-    // VALIDASI
+    // Validasi
     if (!values.title.trim()) newErrors.title = "Judul wajib diisi.";
     if (!values.shortDescription.trim())
       newErrors.shortDescription = "Deskripsi singkat wajib diisi.";

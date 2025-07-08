@@ -14,7 +14,7 @@ const Home = () => {
     <div>
       <div className="px-20">
         <div className="flex justify-start items-center gap-5 py-8">
-          <h1 className="text-4xl font-semibold">Campaigns</h1>
+          <h1 className="text-gray-800 text-4xl font-semibold">Campaigns</h1>
           {user?.role === "ADMIN" ? (
             <Link to="/pending-campaign">
               <Button className="bg-gray-800 hover:bg-gray-700 hover:cursor-pointer">

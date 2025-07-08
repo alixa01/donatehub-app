@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import api from "@/lib/api";
 
 export function useGetCampaign(id) {
   const [campaign, setCampaign] = useState(null);
@@ -6,25 +7,25 @@ export function useGetCampaign(id) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setLoading(false);
+      return;
+    }
+
     const fetchCampaign = async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:3000/campaign/${id}`);
-        if (!res.ok) {
-          throw new Error("Network response error");
-        }
-
-        const data = await res.json();
-        setCampaign(data);
-      } catch (error) {
-        console.error("Failed to fetch campaigns: ", error);
-        setError(error);
+        const res = await api.get(`/campaign/${id}`);
+        setCampaign(res.data);
+      } catch (err) {
+        console.error("Failed to fetch campaign: ", err);
+        setError(err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchCampaign();
   }, [id]);
 
