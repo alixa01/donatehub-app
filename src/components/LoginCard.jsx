@@ -46,7 +46,7 @@ const LoginCard = () => {
           {error && <p className="text-center text-red-500 text-sm">{error}</p>}
 
           <p className="text-center text-sm">
-            Don't have an account?
+            Don't have an account? {""}
             <span
               className="font-semibold cursor-pointer hover:underline"
               onClick={() => navigate("/register")}>

@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Progress } from "./ui/progress";
 import { IoTimeOutline } from "react-icons/io5";
-import { calculateDaysLeft } from "@/utils/daysLeft";
+import { calculateDaysLeft } from "@/utils/format";
 import { useGetCampaignsByCreator } from "@/hooks/useGetCampignsByCreator";
-import { getStatusBadgeClasses } from "@/utils/bgHelper";
+import { getStatusBadgeClasses } from "@/utils/uiHelper";
+import { Button } from "./ui/button";
 
 const MyCampaigns = () => {
   const { myCampaignsCreated, loading, error } = useGetCampaignsByCreator();
@@ -37,14 +39,15 @@ const MyCampaigns = () => {
                     : 0;
                 const daysLeft = calculateDaysLeft(campaign.deadline);
                 const bgClass = getStatusBadgeClasses(campaign.status);
-                return (
-                  <div className="border flex flex-row justify-between items-center rounded-lg p-3 w-full shadow-sm">
+
+                const cardContent = (
+                  <div className="border flex flex-row justify-between rounded-lg p-3 w-full shadow-sm hover:shadow-md transition">
                     <div className="w-[75%] flex flex-col gap-y-1">
                       <h1 className="font-semibold text-md">
                         {campaign.title}
                       </h1>
                       <div className="flex justify-between items-center">
-                        <span className="font-semibold ">
+                        <span className="font-semibold">
                           ${campaign.raised.toLocaleString()} Raised
                         </span>
                         <span className="text-gray-500 text-sm">
@@ -57,10 +60,34 @@ const MyCampaigns = () => {
                         <span>{daysLeft} Days left</span>
                       </div>
                     </div>
-                    <div
-                      className={`flex items-center justify-center h-8 font-medium px-3 py-1 text-sm rounded-full ${bgClass}`}>
-                      <span>{campaign.status}</span>
+
+                    {/* Status */}
+                    <div className="flex flex-col items-center m-auto gap-y-5">
+                      <div
+                        className={`flex items-center h-5 text-black font-semibold px-2 py-1 text-sm rounded ${bgClass}`}>
+                        <span>{campaign.status}</span>
+                      </div>
+
+                      {campaign.status === "APPROVED" && (
+                        <Button className="flex items-center h-5 text-black bg-green-500 hover:bg-green-600 hover:cursor-pointer hover:scale-[1.02] font-normal px-2 py-1 text-sm transition">
+                          <span>Deploy Now</span>
+                        </Button>
+                      )}
                     </div>
+                  </div>
+                );
+
+                return (
+                  <div key={campaign.id}>
+                    {campaign.status === "ACTIVE" ? (
+                      <Link
+                        to={`/campaign/${campaign.id}`}
+                        className="block hover:opacity-90 transition cursor-pointer">
+                        {cardContent}
+                      </Link>
+                    ) : (
+                      cardContent
+                    )}
                   </div>
                 );
               })

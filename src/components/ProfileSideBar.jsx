@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetUser } from "@/hooks/useGetUser";
 import { shortenAddress } from "@/utils/format";
 import { useAuth } from "@/context/AuthContext";
+import { dateFormat } from "@/utils/format";
 
 const ProfileSideBar = () => {
   const { logout } = useAuth();
@@ -37,7 +38,7 @@ const ProfileSideBar = () => {
               </span>
               <span className="flex items-center gap-2 text-gray-600 text-sm">
                 <SlCalender />
-                Joined at {new Date(user.createdAt).toLocaleDateString()}
+                Joined at {dateFormat(user.createdAt)}
               </span>
             </div>
 

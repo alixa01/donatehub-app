@@ -1,26 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-
-const getStatusBadge = (status) => {
-  return (
-    <span className="px-2 py-1 rounded text-xs font-semibold bg-[#EAB308] text-white shadow-md">
-      {status}
-    </span>
-  );
-};
+import { getStatusBadgeClasses } from "@/utils/uiHelper";
+import { dateFormat } from "@/utils/format";
+import { useUpdateStatusCampaign } from "@/hooks/useUpdateStatusCampaign";
 
 const CampaignTable = () => {
-  const { campaigns, loading, error } = useGetCampaigns("PENDING");
+  const { campaigns, loading, error, fetchCampaigns } =
+    useGetCampaigns("PENDING");
+  const { updateStatus } = useUpdateStatusCampaign();
+  const [updatingId, setUpdatingId] = useState(null);
+
+  const handleUpdate = async (campaignId, status) => {
+    try {
+      setUpdatingId(campaignId);
+      await updateStatus(campaignId, status);
+      alert(`Campaign ${status.toLowerCase()}!`);
+      await fetchCampaigns();
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   return (
     <div className="overflow-x-auto border rounded-md">
       {loading ? (
-        <p className="col-span-full text-center py-10">Loading campaigns...</p>
+        <p className="text-center py-10">Loading campaigns...</p>
       ) : error ? (
-        <p className="col-span-full text-center py-10 text-red-600">
-          {error.message}
-        </p>
+        <p className="text-center py-10 text-red-600">{error.message}</p>
+      ) : campaigns.length === 0 ? (
+        <p className="text-center py-10 text-gray-500">No pending campaigns.</p>
       ) : (
         <table className="w-full table-auto text-sm">
           <thead className="bg-gray-100">
@@ -35,34 +46,50 @@ const CampaignTable = () => {
             </tr>
           </thead>
           <tbody>
-            {campaigns.map((campaign) => (
-              <tr key={campaign.id} className="border-t">
-                <td className="p-3 font-semibold">{campaign.title}</td>
-                <td className="p-3 font-semibold">
-                  {campaign.creator.username}
-                </td>
-                <td className="p-3 font-semibold capitalize">
-                  {campaign.category}
-                </td>
-                <td className="p-3 font-semibold">
-                  ${campaign.goal.toLocaleString()}
-                </td>
-                <td className="p-3 font-semibold">
-                  {new Date(campaign.createdAt).toLocaleDateString()}
-                </td>
-                <td className="p-3 font-semibold">
-                  {getStatusBadge(campaign.status)}
-                </td>
-                <td className="p-3 space-x-2">
-                  <Button className="bg-green-600 text-white px-2 py-1 text-xs">
-                    Approve
-                  </Button>
-                  <Button variant="destructive" className="px-2 py-1 text-xs">
-                    Reject
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {campaigns.map((campaign) => {
+              const bgClass = getStatusBadgeClasses(campaign.status);
+              const isLoadingThis = updatingId === campaign.id;
+              return (
+                <tr key={campaign.id} className="border-t">
+                  <td className="p-3 font-semibold">{campaign.title}</td>
+                  <td className="p-3 font-semibold">
+                    {campaign.creator.username}
+                  </td>
+                  <td className="p-3 font-semibold capitalize">
+                    {campaign.category}
+                  </td>
+                  <td className="p-3 font-semibold">
+                    ${campaign.goal.toLocaleString()}
+                  </td>
+                  <td className="p-3 font-semibold">
+                    {dateFormat(campaign.createdAt)}
+                  </td>
+                  <td className="p-3">
+                    <span
+                      className={`inline-block px-2 py-0.5 text-xs font-medium rounded leading-none ${bgClass}`}>
+                      {campaign.status}
+                    </span>
+                  </td>
+                  <td className="p-3 space-x-2">
+                    <Button
+                      onClick={() => handleUpdate(campaign.id, "APPROVED")}
+                      disabled={isLoadingThis}
+                      size="sm"
+                      className="bg-green-500 hover:bg-green-600 hover:scale-[1.02] text-white px-3 py-1 text-xs h-auto shadow-md transition">
+                      {isLoadingThis ? "..." : "Approve"}
+                    </Button>
+                    <Button
+                      onClick={() => handleUpdate(campaign.id, "REJECTED")}
+                      disabled={isLoadingThis}
+                      variant="destructive"
+                      size="sm"
+                      className="px-3 py-1 text-xs h-auto shadow-md hover:scale-[1.02] transition">
+                      {isLoadingThis ? "..." : "Reject"}
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}

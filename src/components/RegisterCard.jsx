@@ -8,15 +8,34 @@ import { useAuthAction } from "@/hooks/useAuthAction.js";
 
 const RegisterCard = () => {
   const navigate = useNavigate();
-  const { address, connectWallet } = useWallet();
-  const { handleRegister, loading, error } = useAuthAction();
+  const { address, connectWallet, signMessage } = useWallet();
+  const { handleRegister, loading, error, setError } = useAuthAction();
 
   const [username, setUsername] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username.trim()) return;
-    handleRegister({ username, walletAddress: address });
+
+    if (!username.trim()) {
+      setError("Username is required");
+      return;
+    }
+    if (!address) {
+      setError("Please connect your wallet first.");
+      return;
+    }
+
+    try {
+      const messageToSign = `Welcome to DonateHub!\n\nClick the Confirm button below to register your account.\n\nWallet signedAddress: ${address}\nUsername: ${username}`;
+
+      const signature = await signMessage(messageToSign);
+
+      if (signature) {
+        await handleRegister({ username, walletAddress: address });
+      }
+    } catch (error) {
+      setError(error.message || "Signature request was cancelled.");
+    }
   };
 
   return (
@@ -60,7 +79,7 @@ const RegisterCard = () => {
           {error && <p className="text-center text-red-500 text-sm">{error}</p>}
 
           <p className="text-center text-sm">
-            Already have an account?
+            Already have an account? {""}
             <span
               className="font-semibold cursor-pointer hover:underline"
               onClick={() => navigate("/login")}>

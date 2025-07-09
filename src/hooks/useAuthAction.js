@@ -50,7 +50,7 @@ export function useAuthAction() {
       const data = res.data;
 
       if (onSuccess) {
-        onSuccess({ token: data, user: data.user });
+        onSuccess({ token: data.token, user: data.user });
       }
 
       navigate("/");

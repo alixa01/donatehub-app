@@ -4,7 +4,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import DonationForm from "@/components/DonationForm";
-import { calculateDaysLeft } from "@/utils/daysLeft";
+import { calculateDaysLeft } from "@/utils/format";
 import truncate from "lodash.truncate";
 
 const CampaignCard = ({

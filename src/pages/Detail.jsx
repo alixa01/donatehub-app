@@ -3,7 +3,7 @@ import CampaignHeader from "@/components/CampaignHeader";
 import CampaignMedia from "@/components/CampaignMedia";
 import CampaignProgress from "@/components/CampaignProgress";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { calculateDaysLeft } from "@/utils/daysLeft";
+import { calculateDaysLeft } from "@/utils/format";
 import React from "react";
 import { useParams } from "react-router-dom";
 
